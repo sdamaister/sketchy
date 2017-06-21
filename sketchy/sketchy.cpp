@@ -101,101 +101,108 @@ bool checkShaderCompiled(GLuint aShader)
 	return true;
 }
 
-GLuint vaoHandle;
+GLuint lVaoHandle;
 
 
 int main(void)
 {
-	GLFWwindow* window;
+	/*GLFWwindow* lWindow;
 	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
-	GLint mvp_location, vpos_location, vcol_location;
+	GLint mvp_location, vpos_location, vcol_location;*/
 	glfwSetErrorCallback(error_callback);
+
 	if (!glfwInit())
+	{
 		exit(EXIT_FAILURE);
+	}
+
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
-	if (!window)
+
+	GLFWwindow* lWindow = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+	if (!lWindow)
 	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	glfwSetKeyCallback(window, key_callback);
-	glfwMakeContextCurrent(window);
+
+	glfwSetKeyCallback(lWindow, key_callback);
+	glfwMakeContextCurrent(lWindow);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	glfwSwapInterval(1);
 	
-	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
-	glCompileShader(vertex_shader);
+	GLuint lVertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(lVertexShader, 1, &vertex_shader_text, NULL);
+	glCompileShader(lVertexShader);
 
-	if (!checkShaderCompiled(vertex_shader))
+	if (!checkShaderCompiled(lVertexShader))
 	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
 
-	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment_shader, 1, &fragment_shader_text, NULL);
-	glCompileShader(fragment_shader);
+	GLuint lFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(lFragmentShader, 1, &fragment_shader_text, NULL);
+	glCompileShader(lFragmentShader);
 
-	if (!checkShaderCompiled(fragment_shader))
+	if (!checkShaderCompiled(lFragmentShader))
 	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	program = glCreateProgram();
-	glAttachShader(program, vertex_shader);
-	glAttachShader(program, fragment_shader);
-	glLinkProgram(program);
+
+	GLuint lProgramHandle = glCreateProgram();
+	glAttachShader(lProgramHandle, lVertexShader);
+	glAttachShader(lProgramHandle, lFragmentShader);
+	glLinkProgram(lProgramHandle);
 
 	GLint status;
-	glGetProgramiv(program, GL_LINK_STATUS, &status);
+	glGetProgramiv(lProgramHandle, GL_LINK_STATUS, &status);
 	if (GL_FALSE == status) {
 		fprintf(stderr, "Failed to link shader program!\n");
 		GLint logLen;
 
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH,
+		glGetProgramiv(lProgramHandle, GL_INFO_LOG_LENGTH,
 			&logLen);
 		if (logLen > 0)
 		{
 			char * log = new char[logLen];
 			GLsizei written;
-			glGetProgramInfoLog(program, logLen, &written, log);
+			glGetProgramInfoLog(lProgramHandle, logLen, &written, log);
 			fprintf(stderr, "Program log: \n%s", log);
 			delete[] log;
 		}
 	}
 	else
 	{
-		glUseProgram(program);
+		glUseProgram(lProgramHandle);
 	}
 
 	// Create and populate the buffer objects
-	GLuint vboHandles[2];
-	glGenBuffers(2, vboHandles);
-	GLuint positionBufferHandle = vboHandles[0];
-	GLuint colorBufferHandle = vboHandles[1];
+	GLuint lVboHandles[2];
+	glGenBuffers(2, lVboHandles);
+	GLuint lPositionBufferHandle = lVboHandles[0];
+	GLuint lColorBufferHandle = lVboHandles[1];
 
 	// Populate the position buffer
-	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
+	glBindBuffer(GL_ARRAY_BUFFER, lPositionBufferHandle);
 	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), positionData, GL_STATIC_DRAW);
 
 	// Populate the color buffer
-	glBindBuffer(GL_ARRAY_BUFFER, colorBufferHandle);
+	glBindBuffer(GL_ARRAY_BUFFER, lColorBufferHandle);
 	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), colorData, GL_STATIC_DRAW);
 
 	// Create and set-up the vertex array object
-	glGenVertexArrays(1, &vaoHandle);
-	glBindVertexArray(vaoHandle);
+	glGenVertexArrays(1, &lVaoHandle);
+	glBindVertexArray(lVaoHandle);
 	// Enable the vertex attribute arrays
 	glEnableVertexAttribArray(0); // Vertex position
 	glEnableVertexAttribArray(1); // Vertex color
 								  // Map index 0 to the position buffer
-	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
+	glBindBuffer(GL_ARRAY_BUFFER, lPositionBufferHandle);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	// Map index 1 to the color buffer
-	glBindBuffer(GL_ARRAY_BUFFER, colorBufferHandle);
+	glBindBuffer(GL_ARRAY_BUFFER, lColorBufferHandle);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
 	glFlush();
@@ -203,23 +210,23 @@ int main(void)
 
 	float lAngle = 0.5f;
 
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(lWindow))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), lAngle * static_cast<float>(glfwGetTime()), glm::vec3(0.0f, 0.0f, 1.0f));
-		GLuint location = glGetUniformLocation(program, "RotationMatrix");
+		GLuint location = glGetUniformLocation(lProgramHandle, "RotationMatrix");
 		if (location >= 0)
 		{
 			glUniformMatrix4fv(location, 1, GL_FALSE, &rotationMatrix[0][0]);
 		}
-		glBindVertexArray(vaoHandle);
+		glBindVertexArray(lVaoHandle);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		 
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(lWindow);
 		glfwPollEvents();
 	}
 
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(lWindow);
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }

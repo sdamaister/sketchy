@@ -31,18 +31,19 @@ class GLSLProgram
 public:
 			GLSLProgram				();
 
-	void	CompileShader			(const char * aFilename);
-	void	CompileShader			(const char * aFilename, GLSLShader::GLSLShaderType aShaderType);
-	void	CompileShader			(const std::string& aSource, GLSLShader::GLSLShaderType aShaderType, const char * aFilename = NULL);
+	void	CompileShader			(const char * aFilename) const;
+	void	CompileShader			(const char * aFilename, GLSLShader::GLSLShaderType aShaderType) const;
+	void	CompileShader			(const std::string& aSource, GLSLShader::GLSLShaderType aShaderType, const char * aFilename = NULL) const;
 
-	void	Link					();
-	void	UseProgram				();
-	void	Validate				();
-	int		GetHandle				();
-	bool	IsLinked				();
+	void	Link					() const;
+	void	UseProgram				() const;
+	void	Validate				() const;
+
+	int		GetHandle				() const { return mHandle;   }
+	bool	IsLinked				() const { return mIsLinked; }
 	
-	void	BindAttribLocation		(GLuint aLocation, const char * aName);
-	void	BindFragDataLocation	(GLuint aLocation, const char * aName);
+	void	BindAttribLocation		(GLuint aLocation, const char * aName) const;
+	void	BindFragDataLocation	(GLuint aLocation, const char * aName) const;
 	
 	void	SetUniform				(const char *aName, float aX, float aY, float aZ);
 	void	SetUniform				(const char *aName, const glm::vec3 & aVec3);
@@ -53,17 +54,17 @@ public:
 	void	SetUniform				(const char *aName, int   aVal);
 	void	SetUniform				(const char *aName, bool  aVal);
 	
-	void	PrintActiveUniforms		();
-	void	PrintActiveAttribs		();
-	void	PrintActiveUniformBlocks();
+	void	PrintActiveUniforms		() const;
+	void	PrintActiveAttribs		() const;
+	void	PrintActiveUniformBlocks() const;
 
 private:
 
 	int							mHandle;
-	bool						mLinked;
+	bool						mIsLinked;
 	std::map<std::string, int>	mUniformLocations;
 
-	int GetUniformLocation(const char * aName);
+	int GetUniformLocation(const char * aName) const;
 };
 
 #endif //__SKETCHY_GLSLPROGRAM__

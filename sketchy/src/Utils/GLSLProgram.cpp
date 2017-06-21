@@ -2,56 +2,46 @@
 
 GLSLProgram::GLSLProgram()
 	: mHandle(-1)
-	, mLinked(false)
+	, mIsLinked(false)
 {
 }
 
-void GLSLProgram::CompileShader(const char * aFilename)
-{
-	//@todo
-}
-
-void GLSLProgram::CompileShader(const char * aFilename, GLSLShader::GLSLShaderType aShaderType)
+void GLSLProgram::CompileShader(const char * aFilename) const
 {
 	//@todo
 }
 
-void GLSLProgram::CompileShader(const std::string& aSource, GLSLShader::GLSLShaderType aShaderType, const char * aFilename = NULL)
+void GLSLProgram::CompileShader(const char * aFilename, GLSLShader::GLSLShaderType aShaderType) const
+{
+	//@todo
+}
+
+void GLSLProgram::CompileShader(const std::string& aSource, GLSLShader::GLSLShaderType aShaderType, const char * aFilename) const
 {
 	//@TODO
 }
 
-void GLSLProgram::Link()
+void GLSLProgram::Link() const
 {
 	//@TODO
 }
 
-void GLSLProgram::UseProgram()
+void GLSLProgram::UseProgram() const
 {
 	//@TODO
 }
 
-void GLSLProgram::Validate()
+void GLSLProgram::Validate() const
 {
 	//@TODO
 }
 
-int	GLSLProgram::GetHandle()
+void GLSLProgram::BindAttribLocation(GLuint aLocation, const char * aName) const
 {
 	//@TODO
 }
 
-bool GLSLProgram::IsLinked()
-{
-	//@TODO
-}
-
-void GLSLProgram::BindAttribLocation(GLuint aLocation, const char * aName)
-{
-	//@TODO
-}
-
-void GLSLProgram::BindFragDataLocation(GLuint aLocation, const char * aName)
+void GLSLProgram::BindFragDataLocation(GLuint aLocation, const char * aName) const
 {
 	//@TODO
 }
@@ -96,22 +86,23 @@ void GLSLProgram::SetUniform(const char *aName, bool  aVal)
 	//@TODO
 }
 
-void GLSLProgram::PrintActiveUniforms()
+void GLSLProgram::PrintActiveUniforms() const
 {
 	//@TODO
 }
 
-void GLSLProgram::PrintActiveAttribs()
+void GLSLProgram::PrintActiveAttribs() const
 {
 	//@TODO
 }
 
-void GLSLProgram::PrintActiveUniformBlocks()
+void GLSLProgram::PrintActiveUniformBlocks() const
 {
 	//@TODO
 }
 
-int GLSLProgram::GetUniformLocation(const char * aName)
+int GLSLProgram::GetUniformLocation(const char * aName) const
 {
 	//@TODO
+	return -1;
 }
