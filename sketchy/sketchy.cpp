@@ -106,9 +106,6 @@ GLuint lVaoHandle;
 
 int main(void)
 {
-	/*GLFWwindow* lWindow;
-	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
-	GLint mvp_location, vpos_location, vcol_location;*/
 	glfwSetErrorCallback(error_callback);
 
 	if (!glfwInit())
