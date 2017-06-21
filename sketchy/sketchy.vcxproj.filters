@@ -19,6 +19,12 @@
     <Filter Include="Source Files\src\glad">
       <UniqueIdentifier>{553f3edf-1f4e-4a63-a9b6-3021ab54a0f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\Utils">
+      <UniqueIdentifier>{e35c4b8a-4296-44b4-b3df-338ab97a83d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\Utils\Inc">
+      <UniqueIdentifier>{d57be8c1-d5ef-425d-8493-2c524c2cc9c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -30,6 +36,12 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Utils\Inc\GLSLProgram.h">
+      <Filter>Source Files\src\Utils\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sketchy_config.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -40,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="src\glad\glad.c">
       <Filter>Source Files\src\glad</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\GLSLProgram.cpp">
+      <Filter>Source Files\src\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

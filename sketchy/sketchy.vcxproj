@@ -72,25 +72,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\prj\sketchy\headers;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\prj\sketchy\sketchy\src\Utils\Inc;C:\prj\sketchy\headers;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\prj\sketchy\libs;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\prj\sketchy\sketchy\src\glad;C:\prj\sketchy\sketchy\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\prj\sketchy\headers;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\prj\sketchy\sketchy\src\Utils\Inc;C:\prj\sketchy\headers;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\prj\sketchy\libs64;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\prj\sketchy\sketchy\src\glad;C:\prj\sketchy\sketchy\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\prj\sketchy\headers;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\prj\sketchy\sketchy\src\Utils\Inc;C:\prj\sketchy\headers;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\prj\sketchy\libs;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\prj\sketchy\sketchy\src\glad;C:\prj\sketchy\sketchy\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\prj\sketchy\headers;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\prj\sketchy\sketchy\src\Utils\Inc;C:\prj\sketchy\headers;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;C:\prj\sketchy\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\prj\sketchy\libs64;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\prj\sketchy\sketchy\src\glad;C:\prj\sketchy\sketchy\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -158,12 +158,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sketchy_config.h" />
+    <ClInclude Include="src\Utils\Inc\GLSLProgram.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sketchy.cpp" />
     <ClCompile Include="src\glad\glad.c" />
+    <ClCompile Include="src\Utils\GLSLProgram.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
