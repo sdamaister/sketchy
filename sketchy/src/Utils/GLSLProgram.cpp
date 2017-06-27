@@ -1,3 +1,5 @@
+
+#include<sketchy_config.h>
 #include<GLSLProgram.h>
 
 GLSLProgram::GLSLProgram()
@@ -16,9 +18,36 @@ void GLSLProgram::CompileShader(const char * aFilename, GLSLShader::GLSLShaderTy
 	//@todo
 }
 
-void GLSLProgram::CompileShader(const std::string& aSource, GLSLShader::GLSLShaderType aShaderType, const char * aFilename) const
+bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::GLSLShaderType aShaderType, const char * aFilename) const
 {
 	//@TODO
+	
+	GLuint lShader = glCreateShader(aShaderType);
+	glShaderSource(lShader, 1, &aSource, NULL);
+	glCompileShader(lShader);
+
+	GLint lIsCompiled = 0;
+	glGetShaderiv(lShader, GL_COMPILE_STATUS, &lIsCompiled);
+	if (GL_FALSE == lIsCompiled)
+	{
+		GLint maxLength = 0;
+		glGetShaderiv(lShader, GL_INFO_LOG_LENGTH, &maxLength);
+
+		GLchar* lErrorLog = new GLchar[maxLength];
+
+		glGetShaderInfoLog(lShader, maxLength, &maxLength, lErrorLog);
+		char lBuff[1024];
+		sprintf(lBuff, " Compilation shader errors: %d", 1);
+		printf(lBuff);
+		LogConsoleString(" Compilation shader errors: %d", 1);
+		LogConsoleString(lErrorLog);
+
+		delete[] lErrorLog;
+
+		return false;
+	}
+
+	return true;
 }
 
 void GLSLProgram::Link() const

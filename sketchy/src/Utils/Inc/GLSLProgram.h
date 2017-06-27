@@ -5,7 +5,6 @@
 #ifndef __SKETCHY_GLSLPROGRAM__
 #define __SKETCHY_GLSLPROGRAM__
 
-#include<stdexcept>
 #include<string>
 #include<map>
 #include<glad/glad.h>
@@ -33,7 +32,7 @@ public:
 
 	void	CompileShader			(const char * aFilename) const;
 	void	CompileShader			(const char * aFilename, GLSLShader::GLSLShaderType aShaderType) const;
-	void	CompileShader			(const std::string& aSource, GLSLShader::GLSLShaderType aShaderType, const char * aFilename = NULL) const;
+	bool	CompileShader			(const char * aSource  , GLSLShader::GLSLShaderType aShaderType, const char * aFilename = NULL) const;
 
 	void	Link					() const;
 	void	UseProgram				() const;
