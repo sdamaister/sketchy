@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <sstream>
 
+#include <GLSLProgram.h>
+
 static const struct
 {
 	float x, y;
@@ -101,8 +103,6 @@ bool checkShaderCompiled(GLuint aShader)
 	return true;
 }
 
-GLuint lVaoHandle;
-
 
 int main(void)
 {
@@ -128,26 +128,21 @@ int main(void)
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	glfwSwapInterval(1);
 	
-	GLuint lVertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(lVertexShader, 1, &vertex_shader_text, NULL);
-	glCompileShader(lVertexShader);
+	GLSLProgram lGLSLProgram;
 
-	if (!checkShaderCompiled(lVertexShader))
+	if (!lGLSLProgram.CompileShader(vertex_shader_text, GLSLShader::eST_Vertex, 0))
+	{
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
+	
+	if (!lGLSLProgram.CompileShader(fragment_shader_text, GLSLShader::eST_Fragment, 0))
 	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
 
-	GLuint lFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(lFragmentShader, 1, &fragment_shader_text, NULL);
-	glCompileShader(lFragmentShader);
-
-	if (!checkShaderCompiled(lFragmentShader))
-	{
-		glfwTerminate();
-		exit(EXIT_FAILURE);
-	}
-
+	//@ todo link function
 	GLuint lProgramHandle = glCreateProgram();
 	glAttachShader(lProgramHandle, lVertexShader);
 	glAttachShader(lProgramHandle, lFragmentShader);

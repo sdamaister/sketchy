@@ -6,6 +6,13 @@ GLSLProgram::GLSLProgram()
 	: mHandle(-1)
 	, mIsLinked(false)
 {
+	mShaderHandles = new GLuint[GLSLShader::eST_Count];
+	mShaderHandles = { 0 };
+}
+
+GLSLProgram::~GLSLProgram()
+{
+	delete[] mShaderHandles;
 }
 
 void GLSLProgram::CompileShader(const char * aFilename) const
@@ -13,15 +20,14 @@ void GLSLProgram::CompileShader(const char * aFilename) const
 	//@todo
 }
 
-void GLSLProgram::CompileShader(const char * aFilename, GLSLShader::GLSLShaderType aShaderType) const
+void GLSLProgram::CompileShader(const char * aFilename, GLSLShader::EGLSLShaderType aShaderType) const
 {
 	//@todo
 }
 
-bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::GLSLShaderType aShaderType, const char * aFilename) const
+bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::EGLSLShaderType aShaderType, const char * aFilename) const
 {
-	//@TODO
-	
+	//@todo add assert
 	GLuint lShader = glCreateShader(aShaderType);
 	glShaderSource(lShader, 1, &aSource, NULL);
 	glCompileShader(lShader);
@@ -46,6 +52,8 @@ bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::GLSLShaderType 
 
 		return false;
 	}
+
+	mShaderHandles[aShaderType] = lShader;
 
 	return true;
 }

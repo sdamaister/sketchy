@@ -13,15 +13,17 @@
 
 namespace GLSLShader
 {
-	enum GLSLShaderType
+	enum EGLSLShaderType
 	{
-		VERTEX			= GL_VERTEX_SHADER,
-		FRAGMENT		= GL_FRAGMENT_SHADER,
-		GEOMETRY		= GL_GEOMETRY_SHADER,
+		eST_Invalid			= -1,
+		eST_Vertex			= GL_VERTEX_SHADER,
+		eST_Fragment		= GL_FRAGMENT_SHADER,
+		eST_Geometry		= GL_GEOMETRY_SHADER,
 		/* @todo: investigate where are defined
-		TESS_CONTROL	= GL_TESS_CONTROL_SHADER,
-		TESS_EVALUATION = GL_TESS_EVALUATION_SHADER,
-		COMPUTE			= GL_COMPUTE_SHADER*/
+		eST_TessControl		= GL_TESS_CONTROL_SHADER,
+		eST_TessEvaluation	= GL_TESS_EVALUATION_SHADER,
+		eST_Compute			= GL_COMPUTE_SHADER*/
+		eST_Count
 	};
 };
 
@@ -29,10 +31,11 @@ class GLSLProgram
 {
 public:
 			GLSLProgram				();
+		   ~GLSLProgram				();
 
 	void	CompileShader			(const char * aFilename) const;
-	void	CompileShader			(const char * aFilename, GLSLShader::GLSLShaderType aShaderType) const;
-	bool	CompileShader			(const char * aSource  , GLSLShader::GLSLShaderType aShaderType, const char * aFilename = NULL) const;
+	void	CompileShader			(const char * aFilename, GLSLShader::EGLSLShaderType aShaderType) const;
+	bool	CompileShader			(const char * aSource  , GLSLShader::EGLSLShaderType aShaderType, const char * aFilename = NULL) const;
 
 	void	Link					() const;
 	void	UseProgram				() const;
@@ -62,6 +65,7 @@ private:
 	int							mHandle;
 	bool						mIsLinked;
 	std::map<std::string, int>	mUniformLocations;
+	GLuint*						mShaderHandles;
 
 	int GetUniformLocation(const char * aName) const;
 };
