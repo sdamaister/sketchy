@@ -37,7 +37,7 @@ float colorData[] = {
 
 static const char* vertex_shader_text =
 "#version 440\n"
-"layout(location = 0) in vec3 VertexPosition;\n"
+"layout(locasdasation = 0) in vec3 VertexPosition;\n"
 "layout(location = 1) in vec3 VertexColor;\n"
 "uniform mat4 RotationMatrix;\n"
 "out vec3 Color;\n"
@@ -71,7 +71,7 @@ static void LogConsoleString(const char* aFormat, ...)
 	va_list lArgs;
 	va_start(lArgs, aFormat);
 	char lBuff[1024] = { 0 };
-	sprintf(lBuff, aFormat, lArgs);
+	sprintf_s(lBuff, aFormat, lArgs);
 	std::wostringstream os_;
 	os_ << lBuff << "\n";
 	OutputDebugString(os_.str().c_str());
@@ -90,7 +90,7 @@ bool checkShaderCompiled(GLuint aShader)
 		
 		glGetShaderInfoLog(aShader, maxLength, &maxLength, lErrorLog);
 		char lBuff[1024];
-		sprintf(lBuff, " Compilation shader errors: %d", 1);
+		sprintf_s(lBuff, " Compilation shader errors: %d", 1);
 		printf(lBuff);
 		LogConsoleString(" Compilation shader errors: %d", 1);
 		LogConsoleString(lErrorLog);
@@ -102,6 +102,8 @@ bool checkShaderCompiled(GLuint aShader)
 
 	return true;
 }
+
+GLuint lVaoHandle;
 
 
 int main(void)
@@ -142,32 +144,9 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	//@ todo link function
-	GLuint lProgramHandle = glCreateProgram();
-	glAttachShader(lProgramHandle, lVertexShader);
-	glAttachShader(lProgramHandle, lFragmentShader);
-	glLinkProgram(lProgramHandle);
-
-	GLint status;
-	glGetProgramiv(lProgramHandle, GL_LINK_STATUS, &status);
-	if (GL_FALSE == status) {
-		fprintf(stderr, "Failed to link shader program!\n");
-		GLint logLen;
-
-		glGetProgramiv(lProgramHandle, GL_INFO_LOG_LENGTH,
-			&logLen);
-		if (logLen > 0)
-		{
-			char * log = new char[logLen];
-			GLsizei written;
-			glGetProgramInfoLog(lProgramHandle, logLen, &written, log);
-			fprintf(stderr, "Program log: \n%s", log);
-			delete[] log;
-		}
-	}
-	else
+	if (lGLSLProgram.Link())
 	{
-		glUseProgram(lProgramHandle);
+		lGLSLProgram.UseProgram();
 	}
 
 	// Create and populate the buffer objects
@@ -206,7 +185,7 @@ int main(void)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), lAngle * static_cast<float>(glfwGetTime()), glm::vec3(0.0f, 0.0f, 1.0f));
-		GLuint location = glGetUniformLocation(lProgramHandle, "RotationMatrix");
+		GLuint location = glGetUniformLocation(lGLSLProgram.GetHandle(), "RotationMatrix");
 		if (location >= 0)
 		{
 			glUniformMatrix4fv(location, 1, GL_FALSE, &rotationMatrix[0][0]);

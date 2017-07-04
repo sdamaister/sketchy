@@ -16,6 +16,8 @@ static void LogConsoleString(const char* aFormat, ...)
 	va_start(lArgs, aFormat);
 	char lBuff[1024] = { 0 };
 	sprintf(lBuff, aFormat, lArgs);
+	va_end(aFormat);
+	printf(lBuff);
 	std::wostringstream os_;
 	os_ << lBuff << "\n";
 	OutputDebugString(os_.str().c_str());

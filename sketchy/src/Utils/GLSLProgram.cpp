@@ -3,29 +3,22 @@
 #include<GLSLProgram.h>
 
 GLSLProgram::GLSLProgram()
-	: mHandle(-1)
-	, mIsLinked(false)
+	: mIsLinked(false)
 {
-	mShaderHandles = new GLuint[GLSLShader::eST_Count];
-	mShaderHandles = { 0 };
+	mProgramHandle = glCreateProgram();
 }
 
-GLSLProgram::~GLSLProgram()
-{
-	delete[] mShaderHandles;
-}
-
-void GLSLProgram::CompileShader(const char * aFilename) const
+void GLSLProgram::CompileShader(const char * aFilename)
 {
 	//@todo
 }
 
-void GLSLProgram::CompileShader(const char * aFilename, GLSLShader::EGLSLShaderType aShaderType) const
+void GLSLProgram::CompileShader(const char * aFilename, GLSLShader::EGLSLShaderType aShaderType)
 {
 	//@todo
 }
 
-bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::EGLSLShaderType aShaderType, const char * aFilename) const
+bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::EGLSLShaderType aShaderType, const char * aFilename)
 {
 	//@todo add assert
 	GLuint lShader = glCreateShader(aShaderType);
@@ -42,10 +35,11 @@ bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::EGLSLShaderType
 		GLchar* lErrorLog = new GLchar[maxLength];
 
 		glGetShaderInfoLog(lShader, maxLength, &maxLength, lErrorLog);
-		char lBuff[1024];
-		sprintf(lBuff, " Compilation shader errors: %d", 1);
-		printf(lBuff);
-		LogConsoleString(" Compilation shader errors: %d", 1);
+		const char* lShaderTypeStr = "Vertex Shader";
+		
+		/*char lBuff[1024] = { 0 };
+		sprintf_s(lBuff, "\n%s compilation error:", GetShaderTypeString(aShaderType));*/
+		LogConsoleString("\n%s compilation error:", GetShaderTypeString(aShaderType));
 		LogConsoleString(lErrorLog);
 
 		delete[] lErrorLog;
@@ -58,14 +52,53 @@ bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::EGLSLShaderType
 	return true;
 }
 
-void GLSLProgram::Link() const
+bool GLSLProgram::Link()
 {
-	//@TODO
+	for (int i = 0; i < GLSLShader::eST_Count; ++i)
+	{
+		if (mShaderHandles[i])
+		{
+			glAttachShader(mProgramHandle, mShaderHandles[i]);
+		}
+	}
+
+	glLinkProgram(mProgramHandle);
+
+	GLint status;
+	glGetProgramiv(mProgramHandle, GL_LINK_STATUS, &status);
+	if (GL_FALSE == status) {
+		fprintf(stderr, "Failed to link shader program!\n");
+		GLint logLen;
+
+		glGetProgramiv(mProgramHandle, GL_INFO_LOG_LENGTH,
+			&logLen);
+		if (logLen > 0)
+		{
+			char * log = new char[logLen];
+			GLsizei written;
+			glGetProgramInfoLog(mProgramHandle, logLen, &written, log);
+			fprintf(stderr, "Program log: \n%s", log);
+			LogConsoleString("Program log: \n%s", log);
+
+			delete[] log;
+
+			mIsLinked = false;
+		}
+	}
+	else
+	{
+		mIsLinked = true;
+	}
+
+	return mIsLinked;
 }
 
 void GLSLProgram::UseProgram() const
 {
-	//@TODO
+	if (mProgramHandle)
+	{
+		glUseProgram(mProgramHandle);
+	}
 }
 
 void GLSLProgram::Validate() const
@@ -142,4 +175,27 @@ int GLSLProgram::GetUniformLocation(const char * aName) const
 {
 	//@TODO
 	return -1;
+}
+
+const char* GLSLProgram::GetShaderTypeString(GLSLShader::EGLSLShaderType aShaderType)
+{
+	switch (aShaderType)
+	{
+	case GLSLShader::eST_Vertex:
+		return "Vertex shader";
+	case GLSLShader::eST_Fragment:
+		return "Fragment shader";
+	case GLSLShader::eST_Geometry:
+		return "Geometry shader";
+		/*case GLSLShader::eST_TessControl:
+		break;
+		case GLSLShader::eST_TessEvaluation:
+		break;
+		case GLSLShader::eST_Compute:
+		break;*/
+	default:
+		break;
+	}
+
+	return 0;
 }

@@ -31,18 +31,18 @@ class GLSLProgram
 {
 public:
 			GLSLProgram				();
-		   ~GLSLProgram				();
 
-	void	CompileShader			(const char * aFilename) const;
-	void	CompileShader			(const char * aFilename, GLSLShader::EGLSLShaderType aShaderType) const;
-	bool	CompileShader			(const char * aSource  , GLSLShader::EGLSLShaderType aShaderType, const char * aFilename = NULL) const;
+	void	CompileShader			(const char * aFilename);
+	void	CompileShader			(const char * aFilename, GLSLShader::EGLSLShaderType aShaderType);
+	bool	CompileShader			(const char * aSource  , GLSLShader::EGLSLShaderType aShaderType, const char * aFilename = NULL);
 
-	void	Link					() const;
+	bool	Link					();
+
 	void	UseProgram				() const;
 	void	Validate				() const;
 
-	int		GetHandle				() const { return mHandle;   }
-	bool	IsLinked				() const { return mIsLinked; }
+	GLuint	GetHandle				() const { return mProgramHandle;   }
+	bool	IsLinked				() const { return mIsLinked;		}
 	
 	void	BindAttribLocation		(GLuint aLocation, const char * aName) const;
 	void	BindFragDataLocation	(GLuint aLocation, const char * aName) const;
@@ -62,12 +62,14 @@ public:
 
 private:
 
-	int							mHandle;
+	GLuint  					mProgramHandle;
+	GLuint 						mShaderHandles[GLSLShader::eST_Count];
 	bool						mIsLinked;
 	std::map<std::string, int>	mUniformLocations;
-	GLuint*						mShaderHandles;
 
-	int GetUniformLocation(const char * aName) const;
+	int			GetUniformLocation	(const char * aName) const;
+	const char* GetShaderTypeString (GLSLShader::EGLSLShaderType aShaderType);
 };
+
 
 #endif //__SKETCHY_GLSLPROGRAM__
