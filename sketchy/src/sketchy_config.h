@@ -9,13 +9,14 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <windows.h>
+#include <assert.h>
 
 static void LogConsoleString(const char* aFormat, ...)
 {
 	va_list lArgs;
 	va_start(lArgs, aFormat);
 	char lBuff[1024] = { 0 };
-	sprintf(lBuff, aFormat, lArgs);
+	vsprintf_s(lBuff, aFormat, lArgs);
 	va_end(aFormat);
 	printf(lBuff);
 	std::wostringstream os_;

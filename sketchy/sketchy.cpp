@@ -37,7 +37,7 @@ float colorData[] = {
 
 static const char* vertex_shader_text =
 "#version 440\n"
-"layout(locasdasation = 0) in vec3 VertexPosition;\n"
+"layout(location = 0) in vec3 VertexPosition;\n"
 "layout(location = 1) in vec3 VertexColor;\n"
 "uniform mat4 RotationMatrix;\n"
 "out vec3 Color;\n"

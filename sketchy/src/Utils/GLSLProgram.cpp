@@ -20,7 +20,8 @@ void GLSLProgram::CompileShader(const char * aFilename, GLSLShader::EGLSLShaderT
 
 bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::EGLSLShaderType aShaderType, const char * aFilename)
 {
-	//@todo add assert
+	assert(aSource && (GLSLShader::eST_Invalid != aShaderType));
+
 	GLuint lShader = glCreateShader(aShaderType);
 	glShaderSource(lShader, 1, &aSource, NULL);
 	glCompileShader(lShader);
@@ -37,8 +38,6 @@ bool GLSLProgram::CompileShader(const char* aSource, GLSLShader::EGLSLShaderType
 		glGetShaderInfoLog(lShader, maxLength, &maxLength, lErrorLog);
 		const char* lShaderTypeStr = "Vertex Shader";
 		
-		/*char lBuff[1024] = { 0 };
-		sprintf_s(lBuff, "\n%s compilation error:", GetShaderTypeString(aShaderType));*/
 		LogConsoleString("\n%s compilation error:", GetShaderTypeString(aShaderType));
 		LogConsoleString(lErrorLog);
 
@@ -64,23 +63,21 @@ bool GLSLProgram::Link()
 
 	glLinkProgram(mProgramHandle);
 
-	GLint status;
-	glGetProgramiv(mProgramHandle, GL_LINK_STATUS, &status);
-	if (GL_FALSE == status) {
-		fprintf(stderr, "Failed to link shader program!\n");
-		GLint logLen;
+	GLint lStatus;
+	glGetProgramiv(mProgramHandle, GL_LINK_STATUS, &lStatus);
+	if (GL_FALSE == lStatus) {
+		LogConsoleString("Failed to link shader program!\n");
+		GLint lLogLen;
 
-		glGetProgramiv(mProgramHandle, GL_INFO_LOG_LENGTH,
-			&logLen);
-		if (logLen > 0)
+		glGetProgramiv(mProgramHandle, GL_INFO_LOG_LENGTH, &lLogLen);
+		if (lLogLen > 0)
 		{
-			char * log = new char[logLen];
+			char * lLog = new char[lLogLen];
 			GLsizei written;
-			glGetProgramInfoLog(mProgramHandle, logLen, &written, log);
-			fprintf(stderr, "Program log: \n%s", log);
-			LogConsoleString("Program log: \n%s", log);
+			glGetProgramInfoLog(mProgramHandle, lLogLen, &written, lLog);
+			LogConsoleString("Program log: \n%s", lLog);
 
-			delete[] log;
+			delete[] lLog;
 
 			mIsLinked = false;
 		}
@@ -95,6 +92,8 @@ bool GLSLProgram::Link()
 
 void GLSLProgram::UseProgram() const
 {
+	assert(mProgramHandle);
+
 	if (mProgramHandle)
 	{
 		glUseProgram(mProgramHandle);
@@ -179,6 +178,8 @@ int GLSLProgram::GetUniformLocation(const char * aName) const
 
 const char* GLSLProgram::GetShaderTypeString(GLSLShader::EGLSLShaderType aShaderType)
 {
+	assert(GLSLShader::eST_Invalid != aShaderType);
+
 	switch (aShaderType)
 	{
 	case GLSLShader::eST_Vertex:
