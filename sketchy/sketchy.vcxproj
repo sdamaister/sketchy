@@ -72,25 +72,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>src;src\Utils\Inc;..\headers;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
+    <IncludePath>src;src\Utils\Inc;..\headers;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;src\FS\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>..\libs;$(LibraryPath)</LibraryPath>
     <SourcePath>src\glad;src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>src;src\Utils\Inc;..\headers;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
+    <IncludePath>src;src\Utils\Inc;..\headers;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;src\FS\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>..\libs64;$(LibraryPath)</LibraryPath>
     <SourcePath>src\glad;src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>src;src\Utils\Inc;..\headers;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
+    <IncludePath>src;src\Utils\Inc;..\headers;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;src\FS\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>..\libs;$(LibraryPath)</LibraryPath>
     <SourcePath>src\glad;src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>src;src\Utils\Inc;..\headers;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;$(IncludePath)</IncludePath>
+    <IncludePath>src;src\Utils\Inc;..\headers;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\deps;..\external\glfw\glfw-3.2.1.bin.WIN64\glfw-master\glfw-master\include;src\FS\Inc;$(IncludePath)</IncludePath>
     <LibraryPath>..\libs64;$(LibraryPath)</LibraryPath>
     <SourcePath>src\glad;src;$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -158,6 +158,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\FS\Inc\FileReader.h" />
     <ClInclude Include="src\sketchy_config.h" />
     <ClInclude Include="src\Utils\Inc\GLSLProgram.h" />
     <ClInclude Include="stdafx.h" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sketchy.cpp" />
+    <ClCompile Include="src\FS\FileReader.cpp" />
     <ClCompile Include="src\glad\glad.c" />
     <ClCompile Include="src\Utils\GLSLProgram.cpp" />
     <ClCompile Include="stdafx.cpp">

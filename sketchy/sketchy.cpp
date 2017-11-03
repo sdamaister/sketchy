@@ -13,6 +13,7 @@
 #include <sstream>
 
 #include <GLSLProgram.h>
+#include <FileReader.h>
 
 static const struct
 {
@@ -34,26 +35,6 @@ float colorData[] = {
 	1.0f, 0.0f, 0.0f,
 	0.0f, 1.0f, 0.0f,
 	0.0f, 0.0f, 1.0f };
-
-static const char* vertex_shader_text =
-"#version 440\n"
-"layout(location = 0) in vec3 VertexPosition;\n"
-"layout(location = 1) in vec3 VertexColor;\n"
-"uniform mat4 RotationMatrix;\n"
-"out vec3 Color;\n"
-"void main()\n"
-"{\n"
-"	Color = VertexColor;\n"
-"	gl_Position = RotationMatrix * vec4(VertexPosition,1.0);\n"
-"}\n";
-
-static const char* fragment_shader_text =
-"#version 440\n"
-"in vec3 Color;\n"
-"out vec4 FragColor;\n"
-"void main() {\n"
-"	FragColor = vec4(Color, 1.0);\n"
-"}\n";
 
 static void error_callback(int error, const char* description)
 {
@@ -116,7 +97,7 @@ int main(void)
 	}
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 
 	GLFWwindow* lWindow = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
 	if (!lWindow)
@@ -131,18 +112,26 @@ int main(void)
 	glfwSwapInterval(1);
 	
 	GLSLProgram lGLSLProgram;
-
-	if (!lGLSLProgram.CompileShader(vertex_shader_text, GLSLShader::eST_Vertex, 0))
-	{
-		glfwTerminate();
-		exit(EXIT_FAILURE);
-	}
 	
-	if (!lGLSLProgram.CompileShader(fragment_shader_text, GLSLShader::eST_Fragment, 0))
-	{
-		glfwTerminate();
-		exit(EXIT_FAILURE);
-	}
+	FileReader lVertexShaderFile("src/shaders/", "basic.vert");
+    if (lVertexShaderFile.ReadFile())
+    {
+        if (!lGLSLProgram.CompileShader(lVertexShaderFile.GetStr().c_str(), GLSLShader::eST_Vertex, 0))
+        {
+            glfwTerminate();
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    FileReader lFragmentShaderFile("src/shaders/", "basic.frag");
+    if (lFragmentShaderFile.ReadFile())
+    {
+        if (!lGLSLProgram.CompileShader(lFragmentShaderFile.GetStr().c_str(), GLSLShader::eST_Fragment, 0))
+        {
+            glfwTerminate();
+            exit(EXIT_FAILURE);
+        }
+    }
 
 	if (lGLSLProgram.Link())
 	{

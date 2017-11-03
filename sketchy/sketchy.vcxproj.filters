@@ -25,6 +25,12 @@
     <Filter Include="Source Files\src\Utils\Inc">
       <UniqueIdentifier>{d57be8c1-d5ef-425d-8493-2c524c2cc9c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\FS">
+      <UniqueIdentifier>{a7d2468c-aa33-4438-9fb7-9e15f85cb0d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\FS\Inc">
+      <UniqueIdentifier>{efdaad11-d4a8-4043-97cf-c86b0d54a2cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -42,6 +48,9 @@
     <ClInclude Include="src\sketchy_config.h">
       <Filter>Source Files\src</Filter>
     </ClInclude>
+    <ClInclude Include="src\FS\Inc\FileReader.h">
+      <Filter>Source Files\src\FS\Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -55,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="src\Utils\GLSLProgram.cpp">
       <Filter>Source Files\src\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FS\FileReader.cpp">
+      <Filter>Source Files\src\FS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

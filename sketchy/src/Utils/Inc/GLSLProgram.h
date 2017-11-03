@@ -1,5 +1,5 @@
 /*
-@class	CShader
+@class	GLSLProgram
 */
 
 #ifndef __SKETCHY_GLSLPROGRAM__
